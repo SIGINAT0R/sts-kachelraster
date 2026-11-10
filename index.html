@@ -109,7 +109,7 @@ a.btn{font:600 13px var(--f-body);border:1px solid var(--line);border-radius:6px
         <button id="gps" title="Meinen Standort zeigen">📍 Standort</button>
       </div>
       <div class="here" id="here"></div>
-      <div class="warn" id="warn" hidden>Luftbild und Landeskarte werden direkt bei swisstopo geladen und brauchen Internet. Hier in der Vorschau von Claude sind sie gesperrt – im Programm auf deinem PC (Kachelraster starten.cmd) funktionieren sie. Das Raster geht immer.</div>
+      <div class="warn" id="warn" hidden>Luftbild und Landeskarte werden direkt bei swisstopo geladen und brauchen Internet. Ohne Verbindung geht nur das Raster.</div>
     </div>
     <aside class="side">
       <section class="card">
@@ -397,6 +397,6 @@ document.getElementById('f').addEventListener('submit',ev=>{ev.preventDefault();
   if(r[0]<E0||r[0]>=E1||r[1]<N0||r[1]>=N1){m.textContent='Diese Stelle liegt ausserhalb der Schweiz.';return;}
   m.textContent='';select(r,true);});
 map.fitBounds([[5.96,45.82],[10.49,47.81]],{padding:20,duration:0});select(tileOf(2601.5,1198.83),false);
-setTimeout(()=>{if(layer!=='none'&&!map.isStyleLoaded()){setLayer('none');document.getElementById('warn').hidden=false;}},6000);
+setTimeout(()=>{if(layer!=='none'&&styleErr>2){setLayer('none');document.getElementById('warn').hidden=false;}},8000);   // 10.11.: isStyleLoaded blieb falsch -> Luftbild wurde faelschlich abgeschaltet
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{if(layer==='none')map.setStyle(blank());draw();});
 </script>
