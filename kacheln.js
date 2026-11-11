@@ -6,9 +6,10 @@ window.STS_KACHELN = {
 
   programm: 9,
 
-  stand: "11.11.2026 09:12",
+  stand: "11.11.2026 09:59",
 
   gebaut: [
+    { name: "W54 N10", titel: "Aareufer Belp-Muri (Brueckenwerkzeug)" },
     { name: "W56 N11", titel: "Guerbebruecke Stockmatt (Brueckenwerkzeug)" },
     { name: "W54 N11", titel: "Aare bei Muri (laendlich, Server)" },
 
