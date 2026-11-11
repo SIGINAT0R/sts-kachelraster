@@ -6,7 +6,7 @@ window.STS_KACHELN = {
 
   programm: 9,
 
-  stand: "gebaut 11.11. 10:36",
+  stand: "gebaut 11.11. 10:32",
 
   gebaut: [
     { name: "W56 N10", titel: "Belp Nord (Guerbe, Bahn, 2 Bruecken)" },
