@@ -6,7 +6,7 @@ window.STS_KACHELN = {
 
   programm: 9,
 
-  stand: "11.11.2026 09:59",
+  stand: "11.11.2026 09:49",
 
   gebaut: [
     { name: "W54 N10", titel: "Aareufer Belp-Muri (Brueckenwerkzeug)" },
