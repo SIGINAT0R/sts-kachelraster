@@ -6,9 +6,10 @@ window.STS_KACHELN = {
 
   programm: 9,
 
-  stand: "gebaut 11.11. 10:32",
+  stand: "gebaut 11.11. 12:59",
 
   gebaut: [
+    { name: "W59 N11", titel: "Gurten Westhang (Steg weggelassen)" },
     { name: "W56 N10", titel: "Belp Nord (Guerbe, Bahn, 2 Bruecken)" },
     { name: "W54 N10", titel: "Aareufer Belp-Muri (Brueckenwerkzeug)" },
     { name: "W56 N11", titel: "Guerbebruecke Stockmatt (Brueckenwerkzeug)" },
