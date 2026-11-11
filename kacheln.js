@@ -6,9 +6,10 @@ window.STS_KACHELN = {
 
   programm: 9,
 
-  stand: "10.11.2026 20:24",
+  stand: "11.11.2026 09:12",
 
   gebaut: [
+    { name: "W56 N11", titel: "Guerbebruecke Stockmatt (Brueckenwerkzeug)" },
     { name: "W54 N11", titel: "Aare bei Muri (laendlich, Server)" },
 
     { name: "W55 N10", titel: "Rüfenacht Süd 2 (ländlich, Server)" },
