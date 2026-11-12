@@ -6,9 +6,10 @@ window.STS_KACHELN = {
 
   programm: 9,
 
-  stand: "Ganze Kachel mit Standseilbahn (Betonbett, Unterfuehrungen, Ausweiche), gebaut und gespeichert 12.11. 12:30",
+  stand: "12.11.2026 14:40",
 
   gebaut: [
+    { name: "W59 N09", titel: "Oberbalm-Nord (Server)" },
     { name: "W60 N13", titel: "Gurten / Wabern mit Gurtenbahn" },
     { name: "W58 N12", titel: "Wabern Bahnbruecke im Einschnitt" },
     { name: "W59 N11", titel: "Gurten Westhang (Steg weggelassen)" },
