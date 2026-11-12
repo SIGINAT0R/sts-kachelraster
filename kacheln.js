@@ -6,9 +6,10 @@ window.STS_KACHELN = {
 
   programm: 9,
 
-  stand: "12.11.2026 14:40",
+  stand: "4 Abschnitte gebaut, gespeichert (ohne Bruecken)",
 
   gebaut: [
+    { name: "W58 N09", titel: "Kachel W58N09 gebaut" },
     { name: "W59 N09", titel: "Oberbalm-Nord (Server)" },
     { name: "W60 N13", titel: "Gurten / Wabern mit Gurtenbahn" },
     { name: "W58 N12", titel: "Wabern Bahnbruecke im Einschnitt" },
