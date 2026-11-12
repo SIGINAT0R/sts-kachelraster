@@ -6,9 +6,10 @@ window.STS_KACHELN = {
 
   programm: 9,
 
-  stand: "gebaut 11.11. 16:04",
+  stand: "Ganze Kachel mit Standseilbahn (Betonbett, Unterfuehrungen, Ausweiche), gebaut und gespeichert 12.11. 12:30",
 
   gebaut: [
+    { name: "W60 N13", titel: "Gurten / Wabern mit Gurtenbahn" },
     { name: "W58 N12", titel: "Wabern Bahnbruecke im Einschnitt" },
     { name: "W59 N11", titel: "Gurten Westhang (Steg weggelassen)" },
     { name: "W56 N10", titel: "Belp Nord (Guerbe, Bahn, 2 Bruecken)" },
