@@ -9,6 +9,7 @@ window.STS_KACHELN = {
   stand: "4 Abschnitte gebaut, gespeichert (ohne Bruecken)",
 
   gebaut: [
+    { name: "W60 N09", titel: "Kachel W60N09 gebaut" },
     { name: "W58 N09", titel: "Kachel W58N09 gebaut" },
     { name: "W59 N09", titel: "Oberbalm-Nord (Server)" },
     { name: "W60 N13", titel: "Gurten / Wabern mit Gurtenbahn" },
