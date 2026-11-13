@@ -6,9 +6,10 @@ window.STS_KACHELN = {
 
   programm: 9,
 
-  stand: "4 Abschnitte gebaut, gespeichert (ohne Bruecken), SO nach Abbruch neu",
+  stand: "4 Abschnitte gebaut, gespeichert (ohne Bruecken)",
 
   gebaut: [
+    { name: "W57 N06", titel: "Kachel W57N06 gebaut" },
     { name: "W55 N08", titel: "Kachel W55N08 gebaut" },
     { name: "W55 N06", titel: "Kachel W55N06 gebaut" },
     { name: "W54 N07", titel: "Kachel W54N07 gebaut" },
