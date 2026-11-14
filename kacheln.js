@@ -9,6 +9,7 @@ window.STS_KACHELN = {
   stand: "4 Abschnitte gebaut, gespeichert (Schnellbau, ohne Bruecken)",
 
   gebaut: [
+    { name: "W43 N07", titel: "Kachel W43N07 gebaut" },
     { name: "W43 N06", titel: "Kachel W43N06 gebaut" },
     { name: "W43 N05", titel: "Kachel W43N05 gebaut" },
     { name: "W43 N03", titel: "Kachel W43N03 gebaut" },
