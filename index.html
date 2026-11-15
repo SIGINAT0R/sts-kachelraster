@@ -121,6 +121,11 @@ a.btn{font:600 13px var(--f-body);border:1px solid var(--line);border-radius:6px
         <div class="prow"><span id="p-stand"></span><button id="upd" type="button">Aktualisieren</button></div>
         <div class="pupd" id="p-upd" hidden></div>
       </section>
+      <section class="card" id="tage-card">
+        <h2>Kacheln pro Tag</h2>
+        <div id="tage-best" style="margin:2px 0 8px;font-size:13px;opacity:.8"></div>
+        <div id="tage-list" style="display:flex;flex-direction:column;gap:4px"></div>
+      </section>
       <section class="card">
         <h2>Gewählte Kachel</h2>
         <div class="tile" id="t-name">–</div>
@@ -230,7 +235,7 @@ const km2uv=(e,n)=>{const w=lv2wgs(e*1000,n*1000);return merc(w[0],w[1]);};
 // ---------- Raster ----------
 const E0=2485,E1=2834,N0=1074.33,N1=1296.33,CE=2660,CN=1183.33;
 const r2=v=>Math.round(v*100)/100;
-const PROGRAMM=10;                                 // Version dieses Programms
+const PROGRAMM=11;                                 // Version dieses Programms
 let BUILT=[],STAND='';
 function fromName(n){const m=n.toUpperCase().replace(/\s+/g,'').match(/^([WO])(\d+)([NS])(\d+)$/);return m?[CE+(m[1]==='W'?-1:1)*+m[2],r2(CN+(m[3]==='S'?-1:1)*+m[4])]:null;}
 function takeData(d){if(!d||!Array.isArray(d.gebaut))return false;BUILT=d.gebaut.map(k=>{const t=fromName(k.name);return t&&{n:k.titel||'',e:t[0],s:t[1]};}).filter(Boolean);STAND=d.stand||'';return true;}
@@ -399,4 +404,17 @@ document.getElementById('f').addEventListener('submit',ev=>{ev.preventDefault();
 map.fitBounds([[5.96,45.82],[10.49,47.81]],{padding:20,duration:0});select(tileOf(2601.5,1198.83),false);
 setTimeout(()=>{if(layer!=='none'&&styleErr>2){setLayer('none');document.getElementById('warn').hidden=false;}},8000);   // 10.11.: isStyleLoaded blieb falsch -> Luftbild wurde faelschlich abgeschaltet
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{if(layer==='none')map.setStyle(blank());draw();});
+</script>
+<script>
+// 15.11.2026 (Michi): Kacheln pro Tag aus kacheln.js (Feld tage), alle 5 s neu anzeigen
+function renderTage(){const d=window.STS_KACHELN||{},t=(d.tage||[]).slice(),box=document.getElementById('tage-list');if(!box)return;
+  if(!t.length){box.textContent='Noch keine Tageswerte.';return;}
+  const mx=Math.max(...t.map(x=>x.n)),best=t.reduce((a,b)=>b.n>a.n?b:a),heute=new Date().toISOString().slice(0,10);
+  const lab=s=>/^\d{4}-\d\d-\d\d$/.test(s)?s.slice(8,10)+'.'+s.slice(5,7)+'.':s;
+  document.getElementById('tage-best').textContent='Bester Tag: '+lab(best.tag)+' mit '+best.n+' Kacheln';
+  box.innerHTML='';t.reverse().forEach(x=>{const r=document.createElement('div');r.style.cssText='display:grid;grid-template-columns:110px 1fr 44px;align-items:center;gap:8px;font-size:13px';
+    const w=Math.max(2,Math.round(x.n/mx*100));const ist=x.tag===heute;
+    r.innerHTML='<span style="font-weight:'+(ist?700:500)+'">'+lab(x.tag)+(ist?' (heute)':'')+'</span><span style="height:10px;border-radius:5px;background:rgba(127,127,127,.18);overflow:hidden"><i style="display:block;height:100%;width:'+w+'%;background:#1f6fb2;border-radius:5px"></i></span><b style="text-align:right">'+x.n+'</b>';
+    box.appendChild(r);});}
+renderTage();setInterval(renderTage,5000);
 </script>
