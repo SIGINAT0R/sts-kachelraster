@@ -235,7 +235,7 @@ const km2uv=(e,n)=>{const w=lv2wgs(e*1000,n*1000);return merc(w[0],w[1]);};
 // ---------- Raster ----------
 const E0=2485,E1=2834,N0=1074.33,N1=1296.33,CE=2660,CN=1183.33;
 const r2=v=>Math.round(v*100)/100;
-const PROGRAMM=11;                                 // Version dieses Programms
+const PROGRAMM=12;                                 // Version dieses Programms
 let BUILT=[],STAND='';
 function fromName(n){const m=n.toUpperCase().replace(/\s+/g,'').match(/^([WO])(\d+)([NS])(\d+)$/);return m?[CE+(m[1]==='W'?-1:1)*+m[2],r2(CN+(m[3]==='S'?-1:1)*+m[4])]:null;}
 function takeData(d){if(!d||!Array.isArray(d.gebaut))return false;BUILT=d.gebaut.map(k=>{const t=fromName(k.name);return t&&{n:k.titel||'',e:t[0],s:t[1]};}).filter(Boolean);STAND=d.stand||'';return true;}
@@ -417,4 +417,15 @@ function renderTage(){const d=window.STS_KACHELN||{},t=(d.tage||[]).slice(),box=
     r.innerHTML='<span style="font-weight:'+(ist?700:500)+'">'+lab(x.tag)+(ist?' (heute)':'')+'</span><span style="height:10px;border-radius:5px;background:rgba(127,127,127,.18);overflow:hidden"><i style="display:block;height:100%;width:'+w+'%;background:#1f6fb2;border-radius:5px"></i></span><b style="text-align:right">'+x.n+'</b>';
     box.appendChild(r);});}
 renderTage();setInterval(renderTage,5000);
+</script>
+<script>
+// 15.11.2026 (Michi): in der Fortschritt-Liste nur die letzten 10 Kacheln, Rest aufklappbar
+(function(){let alle=false;const ul=document.getElementById('p-list');if(!ul)return;
+  const knopf=document.createElement('button');knopf.id='p-mehr';knopf.type='button';
+  knopf.style.cssText='margin:6px 0 2px;padding:4px 10px;font:inherit;font-size:13px;cursor:pointer;border-radius:6px;border:1px solid rgba(127,127,127,.4);background:transparent;color:inherit';
+  ul.after(knopf);
+  function kurz(){const li=[...ul.children];li.forEach((e,i)=>e.style.display=(alle||i<10)?'':'none');
+    knopf.hidden=li.length<=10;knopf.textContent=alle?'\u25B2 Nur die letzten 10 zeigen':'\u25BC Alle '+li.length+' Kacheln zeigen';}
+  knopf.onclick=()=>{alle=!alle;kurz();};
+  new MutationObserver(kurz).observe(ul,{childList:true});kurz();})();
 </script>
