@@ -10,6 +10,7 @@ window.STS_KACHELN = {
   tage: [{"tag": "bis 09.11.", "n": 8}, {"tag": "2026-11-10", "n": 20}, {"tag": "2026-11-11", "n": 5}, {"tag": "2026-11-12", "n": 17}, {"tag": "2026-11-13", "n": 59}, {"tag": "2026-11-14", "n": 215}, {"tag": "2026-11-15", "n": 399}, {"tag": "2026-11-16", "n": 144}],
 
   gebaut: [
+    { name: "W28 N15", titel: "Kachel W28N15 gebaut" },
     { name: "W28 N13", titel: "Kachel W28N13 gebaut" },
     { name: "W28 N11", titel: "Kachel W28N11 gebaut" },
     { name: "W27 N10", titel: "Kachel W27N10 gebaut" },
