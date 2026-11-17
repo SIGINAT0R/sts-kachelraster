@@ -1,15 +1,16 @@
 // STS Kachelraster - Liste der gebauten Kacheln. Wird von Claude nach jeder in Unreal komplett gebauten Kachel aktualisiert.
 
-// Das offene Programm liest diese Datei alle 10 Sekunden neu.
+// Das offene Programm liest diese Datei alle 2 Sekunden neu.
 
 window.STS_KACHELN = {
 
-  programm: 12,
+  programm: 13,
 
   stand: "4 Abschnitte gebaut, gespeichert (Schnellbau, ohne Bruecken)",
-  tage: [{"tag": "bis 09.11.", "n": 8}, {"tag": "2026-11-10", "n": 20}, {"tag": "2026-11-11", "n": 5}, {"tag": "2026-11-12", "n": 17}, {"tag": "2026-11-13", "n": 59}, {"tag": "2026-11-14", "n": 215}, {"tag": "2026-11-15", "n": 399}, {"tag": "2026-11-16", "n": 272}, {"tag": "2026-11-17", "n": 287}],
+  tage: [{"tag": "bis 09.11.", "n": 8}, {"tag": "2026-11-10", "n": 20}, {"tag": "2026-11-11", "n": 5}, {"tag": "2026-11-12", "n": 17}, {"tag": "2026-11-13", "n": 59}, {"tag": "2026-11-14", "n": 215}, {"tag": "2026-11-15", "n": 399}, {"tag": "2026-11-16", "n": 272}, {"tag": "2026-11-17", "n": 288}],
 
   gebaut: [
+    { name: "W33 N36", titel: "Kachel W33N36 gebaut" },
     { name: "W32 N36", titel: "Kachel W32N36 gebaut" },
     { name: "W30 N36", titel: "Kachel W30N36 gebaut" },
     { name: "W27 N36", titel: "Kachel W27N36 gebaut" },
