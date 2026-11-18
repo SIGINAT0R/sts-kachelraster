@@ -7,9 +7,10 @@ window.STS_KACHELN = {
   programm: 14,
 
   stand: "4 Abschnitte gebaut, gespeichert (Schnellbau, ohne Bruecken)",
-  tage: [{"tag": "bis 09.11.", "n": 8}, {"tag": "2026-11-10", "n": 20}, {"tag": "2026-11-11", "n": 5}, {"tag": "2026-11-12", "n": 17}, {"tag": "2026-11-13", "n": 59}, {"tag": "2026-11-14", "n": 215}, {"tag": "2026-11-15", "n": 399}, {"tag": "2026-11-16", "n": 272}, {"tag": "2026-11-17", "n": 439}, {"tag": "2026-11-18", "n": 245}],
+  tage: [{"tag": "bis 09.11.", "n": 8}, {"tag": "2026-11-10", "n": 20}, {"tag": "2026-11-11", "n": 5}, {"tag": "2026-11-12", "n": 17}, {"tag": "2026-11-13", "n": 59}, {"tag": "2026-11-14", "n": 215}, {"tag": "2026-11-15", "n": 399}, {"tag": "2026-11-16", "n": 272}, {"tag": "2026-11-17", "n": 439}, {"tag": "2026-11-18", "n": 246}],
 
   gebaut: [
+    { name: "W61 N48", titel: "Kachel W61N48 gebaut" },
     { name: "W54 N48", titel: "Kachel W54N48 gebaut" },
     { name: "W60 N48", titel: "Kachel W60N48 gebaut" },
     { name: "W59 N48", titel: "Kachel W59N48 gebaut" },
