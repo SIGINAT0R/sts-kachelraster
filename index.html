@@ -112,6 +112,11 @@ a.btn{font:600 13px var(--f-body);border:1px solid var(--line);border-radius:6px
       <div class="warn" id="warn" hidden>Luftbild und Landeskarte werden direkt bei swisstopo geladen und brauchen Internet. Ohne Verbindung geht nur das Raster.</div>
     </div>
     <aside class="side">
+      <section class="card" id="betrieb-karte">
+        <h2 style="margin:0 0 6px 0;font-size:16px">Betrieb <span id="betrieb-stand" style="font-weight:400;font-size:12px;opacity:.7"></span></h2>
+        <div id="betrieb-inhalt" style="font-size:13px;line-height:1.5">Noch keine Betriebsdaten.</div>
+      </section>
+
       <section class="card">
         <h2>Fortschritt</h2>
         <div class="prog"><b id="p-built">0</b> <span>von <span id="p-total"></span> Kacheln gebaut</span></div>
@@ -235,7 +240,7 @@ const km2uv=(e,n)=>{const w=lv2wgs(e*1000,n*1000);return merc(w[0],w[1]);};
 // ---------- Raster ----------
 const E0=2485,E1=2834,N0=1074.33,N1=1296.33,CE=2660,CN=1183.33;
 const r2=v=>Math.round(v*100)/100;
-const PROGRAMM=12;                                 // Version dieses Programms
+const PROGRAMM=14;                                 // Version dieses Programms
 let BUILT=[],STAND='';
 function fromName(n){const m=n.toUpperCase().replace(/\s+/g,'').match(/^([WO])(\d+)([NS])(\d+)$/);return m?[CE+(m[1]==='W'?-1:1)*+m[2],r2(CN+(m[3]==='S'?-1:1)*+m[4])]:null;}
 function takeData(d){if(!d||!Array.isArray(d.gebaut))return false;BUILT=d.gebaut.map(k=>{const t=fromName(k.name);return t&&{n:k.titel||'',e:t[0],s:t[1]};}).filter(Boolean);STAND=d.stand||'';return true;}
@@ -428,4 +433,31 @@ renderTage();setInterval(renderTage,5000);
     knopf.hidden=li.length<=10;knopf.textContent=alle?'\u25B2 Nur die letzten 10 zeigen':'\u25BC Alle '+li.length+' Kacheln zeigen';}
   knopf.onclick=()=>{alle=!alle;kurz();};
   new MutationObserver(kurz).observe(ul,{childList:true});kurz();})();
+</script>
+<script>
+// 18.11.2026 (Michi 09:40): Betrieb - Architekten (Server/PC), Vorrat und Bobs. PC: betrieb.js alle 2 s; App: GitHub alle 60 s.
+(function(){const LOKAL=location.protocol==='file:';
+const QUELLE=LOKAL?'betrieb.js':'https://siginat0r.github.io/sts-kachelraster/betrieb.js';
+const z=(v)=>(v===null||v===undefined)?'–':v;
+function zeile(t,w,f){return '<div style="display:grid;grid-template-columns:150px 1fr;gap:6px"><span style="opacity:.75">'+t+'</span><b style="color:'+(f||'inherit')+'">'+w+'</b></div>';}
+function zeig(){const b=window.STS_BETRIEB,el=document.getElementById('betrieb-inhalt'),st=document.getElementById('betrieb-stand');if(!el)return;
+  if(!b){el.textContent='Noch keine Betriebsdaten.';return;}
+  const jetzt=new Date(),h=b.stand.split(':'),t=new Date();t.setHours(+h[0],+h[1],+h[2],0);let alt=Math.round((jetzt-t)/1000);if(alt<0)alt+=86400;
+  const grenze=LOKAL?60:1200;st.textContent='Stand '+b.stand+(alt>grenze?' – veraltet ('+Math.round(alt/60)+' min)':'');st.style.color=alt>grenze?'#c0392b':'';
+  const s=b.architekten.server,p=b.architekten.pc,v=b.vorrat,o=b.bobs;
+  const bobFarbe=o.status==='baut'?'#1e8e3e':(o.status==='angehalten'?'#c0392b':'#b8860b');
+  el.innerHTML='<div style="font-weight:700;margin-top:2px">Architekten Server</div>'
+   +zeile('Pläne heute',z(s.heute))+zeile('letzte Stunde',z(s.letzte_stunde))
+   +zeile('rechnen gerade',z(s.laufend)+' von '+z(s.arbeiter)+(s.erreichbar?'':' (Server nicht erreichbar)'),s.erreichbar?'':'#c0392b')
+   +zeile('noch in der Liste',z(s.offen))
+   +'<div style="font-weight:700;margin-top:8px">Architekt PC</div>'
+   +zeile('Pläne heute',z(p.heute))+zeile('letzte Stunde',z(p.letzte_stunde))
+   +zeile('Zustand',p.status+(p.kachel?' '+p.kachel:''))
+   +'<div style="font-weight:700;margin-top:8px">Vorrat für die Bobs</div>'
+   +zeile('baufertig',z(v.bereit),(v.bereit<5)?'#c0392b':'#1e8e3e')+zeile('mit Brücken (warten)',z(v.mit_bruecken))
+   +'<div style="font-weight:700;margin-top:8px">Bobs</div>'
+   +zeile('Zustand',o.status,bobFarbe)+zeile('Kacheln heute',z(o.heute))+zeile('letzte Stunde',z(o.letzte_stunde))
+   +zeile('Takt',o.takt_s?o.takt_s+' s pro Kachel':'–')+zeile('zuletzt',(o.letzte_kachel||'–')+(o.letzte_zeit?' um '+o.letzte_zeit:''));}
+function hol(){const sc=document.createElement('script');sc.src=QUELLE+'?t='+Date.now();sc.onload=()=>{sc.remove();zeig();};sc.onerror=()=>{sc.remove();zeig();};document.head.appendChild(sc);}
+hol();setInterval(hol,LOKAL?2000:60000);setInterval(zeig,5000);})();
 </script>
