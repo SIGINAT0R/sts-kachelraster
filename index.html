@@ -240,7 +240,7 @@ const km2uv=(e,n)=>{const w=lv2wgs(e*1000,n*1000);return merc(w[0],w[1]);};
 // ---------- Raster ----------
 const E0=2485,E1=2834,N0=1074.33,N1=1296.33,CE=2660,CN=1183.33;
 const r2=v=>Math.round(v*100)/100;
-const PROGRAMM=14;                                 // Version dieses Programms
+const PROGRAMM=15;                                 // Version dieses Programms
 let BUILT=[],STAND='';
 function fromName(n){const m=n.toUpperCase().replace(/\s+/g,'').match(/^([WO])(\d+)([NS])(\d+)$/);return m?[CE+(m[1]==='W'?-1:1)*+m[2],r2(CN+(m[3]==='S'?-1:1)*+m[4])]:null;}
 function takeData(d){if(!d||!Array.isArray(d.gebaut))return false;BUILT=d.gebaut.map(k=>{const t=fromName(k.name);return t&&{n:k.titel||'',e:t[0],s:t[1]};}).filter(Boolean);STAND=d.stand||'';return true;}
@@ -460,4 +460,61 @@ function zeig(){const b=window.STS_BETRIEB,el=document.getElementById('betrieb-i
    +zeile('Takt',o.takt_s?o.takt_s+' s pro Kachel':'–')+zeile('zuletzt',(o.letzte_kachel||'–')+(o.letzte_zeit?' um '+o.letzte_zeit:''));}
 function hol(){const sc=document.createElement('script');sc.src=QUELLE+'?t='+Date.now();sc.onload=()=>{sc.remove();zeig();};sc.onerror=()=>{sc.remove();zeig();};document.head.appendChild(sc);}
 hol();setInterval(hol,LOKAL?2000:60000);setInterval(zeig,5000);})();
+</script>
+<script>
+// 18.11.2026 (Michi 13:57): vierte Rubrik «Aufnahmen» - Abdeckung der Tagesaufnahmen. Gruen = 4K, Rot = nur Full HD.
+// Daten: aufnahmen.js (Sichtung\video_archiv\v3_abdeckung.py). PC: alle 10 s neu lesen; App: GitHub alle 5 min. Standort auf Wunsch.
+(function(){const LOKAL=location.protocol==='file:';
+const QUELLE=LOKAL?'aufnahmen.js':'https://siginat0r.github.io/sts-kachelraster/aufnahmen.js';
+let an=false,LIN=[],stand='',pos=null,watch=null,info=null;
+const grp=document.querySelector('.layers');
+const btn=document.createElement('button');btn.id='a-auf';btn.type='button';btn.textContent='Aufnahmen';btn.setAttribute('aria-pressed','false');
+btn.title='Tagesaufnahmen: grün = 4K, rot = nur Full HD';grp.appendChild(btn);
+// Legende + Standort-Knopf unten links in der Karte
+const box=document.createElement('div');box.id='a-box';box.hidden=true;
+box.style.cssText='position:absolute;left:10px;top:52px;z-index:3;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-size:13px;line-height:1.5;max-width:calc(100% - 20px)';
+box.innerHTML='<div><i class="sw" style="background:#1e9e45"></i>4K vorhanden <b id="a-k4"></b></div>'
+ +'<div><i class="sw" style="background:#d93025"></i>nur Full HD <b id="a-hd"></b></div>'
+ +'<div id="a-st" style="color:var(--muted);font-size:12px"></div>'
+ +'<button id="a-pos" type="button" style="margin-top:6px;font-size:13px;padding:5px 10px">Mein Standort</button> <span id="a-pm" style="font-size:12px;color:var(--muted)"></span>';
+document.querySelector('.mapbox').appendChild(box);
+if(document.getElementById('gps')){box.querySelector('#a-pos').remove();box.querySelector('#a-pm').remove();}   // App hat schon «Standort»
+function prepL(){LIN=(window.STS_AUFNAHMEN&&window.STS_AUFNAHMEN.linien||[]).map(([k,p])=>{const a=new Float64Array(p.length);let u0=1,v0=1,u1=0,v1=0;
+  for(let i=0;i<p.length;i+=2){const m=km2uv(p[i],p[i+1]);a[i]=m[0];a[i+1]=m[1];u0=Math.min(u0,m[0]);u1=Math.max(u1,m[0]);v0=Math.min(v0,m[1]);v1=Math.max(v1,m[1]);}
+  return {k:k,u:a,b:[u0,v0,u1,v1]};});
+  const d=window.STS_AUFNAHMEN||{};stand=d.stand||'';
+  const f=v=>(v||0).toLocaleString('de-CH',{maximumFractionDigits:1})+' km';
+  document.getElementById('a-k4').textContent=f(d.km4k);document.getElementById('a-hd').textContent=f(d.kmhd);
+  document.getElementById('a-st').textContent=stand?'Stand '+stand+' · '+(d.videos||0)+' Videos':'Noch keine Aufnahmen ausgewertet.';}
+function zeichne(){if(!an||!W)return;const s=ws/(40075.017*Math.cos(map.getCenter().lat*Math.PI/180));
+  const vu=[cu-W/2/ws,cvv-H/2/ws,cu+W/2/ws,cvv+H/2/ws];
+  ctx.save();ctx.lineCap='round';ctx.lineJoin='round';
+  const breite=Math.max(2.5,Math.min(7,s/25));
+  [[0,'#d93025'],[1,'#1e9e45']].forEach(([k,col])=>{        // erst rot, dann gruen obenauf
+    ctx.beginPath();LIN.forEach(o=>{if(o.k!==k||o.b[2]<vu[0]||o.b[0]>vu[2]||o.b[3]<vu[1]||o.b[1]>vu[3])return;
+      for(let i=0;i<o.u.length;i+=2){const x=PX(o.u[i]),y=PY(o.u[i+1]);i?ctx.lineTo(x,y):ctx.moveTo(x,y);}});
+    ctx.strokeStyle='rgba(0,0,0,.55)';ctx.lineWidth=breite+2.5;ctx.stroke();ctx.strokeStyle=col;ctx.lineWidth=breite;ctx.stroke();});
+  const gp=(typeof POS!=='undefined'&&POS)?[POS.lo,POS.la]:pos;   // App: eigener Standort-Knopf (POS) - Punkt ueber den Linien
+  if(gp){const m=merc(gp[0],gp[1]),x=PX(m[0]),y=PY(m[1]);
+    ctx.beginPath();ctx.arc(x,y,9,0,7);ctx.fillStyle='#1a73e8';ctx.fill();ctx.lineWidth=3;ctx.strokeStyle='#fff';ctx.stroke();}
+  ctx.restore();}
+// in die bestehende Zeichnung einhaengen (direkte Aufrufe von draw() und das Kartenereignis)
+const draw0=draw;draw=function(){draw0();zeichne();};map.on('render',zeichne);
+const setLayer0=setLayer;setLayer=function(l){setLayer0(l);btn.setAttribute('aria-pressed',String(an));};
+function schalte(v){an=v;btn.setAttribute('aria-pressed',String(an));box.hidden=!an;try{localStorage.setItem('sts_aufnahmen',an?'1':'0');}catch(_){}draw();}
+btn.onclick=()=>schalte(!an);
+if(document.getElementById('a-pos'))document.getElementById('a-pos').onclick=()=>{const pm=document.getElementById('a-pm');
+  if(watch!==null){navigator.geolocation.clearWatch(watch);watch=null;pos=null;pm.textContent='';document.getElementById('a-pos').textContent='Mein Standort';draw();return;}
+  if(!navigator.geolocation){pm.textContent='Standort hier nicht verfügbar';return;}
+  pm.textContent='suche …';let erst=true;
+  watch=navigator.geolocation.watchPosition(p=>{pos=[p.coords.longitude,p.coords.latitude];pm.textContent='±'+Math.round(p.coords.accuracy)+' m';
+      document.getElementById('a-pos').textContent='Standort aus';if(erst){erst=false;map.flyTo({center:pos,zoom:Math.max(map.getZoom(),14),duration:900});}draw();},
+    e=>{pm.textContent=e.code===1?'Standort nicht erlaubt':'Standort nicht gefunden';watch=null;},{enableHighAccuracy:true,maximumAge:5000});};
+let last='';
+function hol(){const sc=document.createElement('script');sc.src=QUELLE+'?t='+Date.now();
+  sc.onload=()=>{sc.remove();const j=window.STS_AUFNAHMEN?window.STS_AUFNAHMEN.stand+'|'+window.STS_AUFNAHMEN.linien.length:'';if(j!==last){last=j;prepL();draw();}};
+  sc.onerror=()=>{sc.remove();if(!last)prepL();};document.head.appendChild(sc);}
+hol();setInterval(hol,LOKAL?10000:300000);
+let gemerkt=null;try{gemerkt=localStorage.getItem('sts_aufnahmen');}catch(_){}if(gemerkt==='1')schalte(true);
+})();
 </script>
