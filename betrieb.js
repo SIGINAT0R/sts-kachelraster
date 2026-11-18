@@ -1,0 +1,2 @@
+// STS Betrieb - wird von Sichtung\betrieb_status.py alle 5 s geschrieben (18.11.2026)
+window.STS_BETRIEB = {"stand": "09:44:00", "datum": "2026-11-18", "architekten": {"server": {"heute": 135, "letzte_stunde": 46, "laufend": 6, "arbeiter": 10, "offen": 469, "erreichbar": true}, "pc": {"status": "rechnet", "kachel": "W42N47", "heute": 11, "heute_abgeholt": 11, "letzte_stunde": 7}}, "vorrat": {"bereit": 2, "mit_bruecken": 8}, "bobs": {"heute": 187, "letzte_stunde": 56, "takt_s": 63, "letzte_kachel": "W95N02", "letzte_zeit": "09:43:46", "status": "baut"}};
