@@ -7,9 +7,10 @@ window.STS_KACHELN = {
   programm: 15,
 
   stand: "4 Abschnitte gebaut, gespeichert (Schnellbau, ohne Bruecken)",
-  tage: [{"tag": "bis 09.11.", "n": 8}, {"tag": "2026-11-10", "n": 20}, {"tag": "2026-11-11", "n": 5}, {"tag": "2026-11-12", "n": 17}, {"tag": "2026-11-13", "n": 59}, {"tag": "2026-11-14", "n": 215}, {"tag": "2026-11-15", "n": 399}, {"tag": "2026-11-16", "n": 272}, {"tag": "2026-11-17", "n": 439}, {"tag": "2026-11-18", "n": 630}, {"tag": "2026-11-19", "n": 27}],
+  tage: [{"tag": "bis 09.11.", "n": 8}, {"tag": "2026-11-10", "n": 20}, {"tag": "2026-11-11", "n": 5}, {"tag": "2026-11-12", "n": 17}, {"tag": "2026-11-13", "n": 59}, {"tag": "2026-11-14", "n": 215}, {"tag": "2026-11-15", "n": 399}, {"tag": "2026-11-16", "n": 272}, {"tag": "2026-11-17", "n": 439}, {"tag": "2026-11-18", "n": 630}, {"tag": "2026-11-19", "n": 28}],
 
   gebaut: [
+    { name: "W19 N47", titel: "Kachel W19N47 gebaut" },
     { name: "W19 N46", titel: "Kachel W19N46 gebaut" },
     { name: "W18 N46", titel: "Kachel W18N46 gebaut" },
     { name: "W62 N54", titel: "Kachel W62N54 gebaut" },
